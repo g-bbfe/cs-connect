@@ -1,11 +1,13 @@
-import { cached, cloneDeep } from './utils';
+import { memoize , cloneDeep } from 'lodash';
 import Session from './Session';
 import metaProcessor from './metaProcessor';
+
 function promiseResolveReduce(initialArgument, functions) {
   return functions.reduce((promise, func) => {
     return promise.then(func);
   }, Promise.resolve(initialArgument));
 }
+
 function safeTransfer(value) {
   if(value instanceof Error){
     //@TODO ERROR要有协议的传输 否则ERROR存在被其他更改风险
@@ -45,7 +47,7 @@ export default class ResourceAgent {
     let session = this._session;
     let { name, path, methods } = resourceConfig;
 
-    return cached(function(params) {
+    return memoize(function(params) {
       return new Proxy({}, {
         // Proxy handler.get
         get: function(target, method, receiver) {
@@ -74,11 +76,17 @@ export default class ResourceAgent {
               throw new Error(`Can't find processor.`);
             }
 
-            let queue = [].concat(requestInterceptors, processor,safeTransfer, _metaProcessor, responseInterceptors);
+            let queue = [].concat(requestInterceptors, processor, safeTransfer, _metaProcessor, responseInterceptors);
             return promiseResolveReduce(options, queue);
           };
         }
       });
     });
   }
+}
+
+var log = ()=>{
+  var args = Array.prototype.slice.apply(Array,arguments);
+  args.unshift('app-');
+  console.log.apply(console, args);
 }

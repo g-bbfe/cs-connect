@@ -31,3 +31,10 @@ resourceAgent.addResponseInterceptors(function(response) {
 });
 
 ```
+
+## Version Change
+
+0.0.1 init
+0.0.2 修复用cached导致的BUG @杨江星
+
+

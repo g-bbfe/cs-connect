@@ -1,6 +1,6 @@
 {
   "name": "@bbfe/cs-connect",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "connect clinet and server",
   "main": "./lib/index.js",
   "files": [
@@ -12,6 +12,7 @@
     "connect"
   ],
   "scripts": {
+    "test": "babel-node ./node_modules/.bin/babel-istanbul cover _mocha",
     "build": "rm -rf lib && babel src -d lib -s inline"
   },
   "repository": {
@@ -20,6 +21,9 @@
   },
   "author": "bbfe",
   "license": "ISC",
+  "dependencies": {
+    "lodash": "4.17.4"
+  },
   "devDependencies": {
     "babel-istanbul": "^0.12.2",
     "babel-cli": "6.26.0",
@@ -38,6 +42,8 @@
     "eslint-loader": "^1.7.1",
     "eslint-plugin-html": "^3.2.2",
     "eslint-plugin-promise": "^3.4.0",
-    "eslint-plugin-standard": "^2.0.1"
+    "eslint-plugin-standard": "^2.0.1",
+    "istanbul": "0.4.5",
+    "mocha": "^4.0.1"
   }
 }
